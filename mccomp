@@ -1,0 +1,31 @@
+# mccomp version 1.0a
+#!/bin/bash
+set -e
+
+input_file=$1
+filename="${input_file%%.*}"
+
+if [ ! -d "gcc" ]
+then
+    echo -e "Creating GCC Directory.\n"
+    mkdir gcc
+fi
+
+if [ ! -d "clang" ]
+then
+    echo -e "Creating CLANG Directory.\n"
+    mkdir clang
+fi
+
+if [ ! -d "msvc" ]
+then
+    echo -e "Creating MSVC Directory.\n"
+    mkdir msvc
+fi
+
+gcc $input_file -o gcc/${filename}
+echo "GCC Successful!"
+clang $input_file -o clang/${filename}
+echo "CLANG Successful!"
+cl64 $input_file /Fe: msvc/${filename}.exe /Fo: msvc/${filename}.obj
+echo "MSVC Successful!"
